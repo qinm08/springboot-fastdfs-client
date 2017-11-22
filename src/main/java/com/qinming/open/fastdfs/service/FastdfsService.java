@@ -31,9 +31,7 @@ public class FastdfsService {
     }
 
     public String upload(InputStream ins, long fileSize, String extName) {
-        long t0 = System.currentTimeMillis();
         StorageClient1 client = new StorageClient1();
-        long t1 = System.currentTimeMillis();
         UploadCallback callback = new UploadStream(ins, fileSize);
         String result;
         try {
@@ -43,8 +41,6 @@ public class FastdfsService {
             return null;
         }
         result = IMAGE_ACCESS_URL + result;
-        long t2 = System.currentTimeMillis();
-        logger.info(result + " init client: " + (t1 - t0) + ", upload file: " + (t2 - t1));
         return result;
     }
 }
