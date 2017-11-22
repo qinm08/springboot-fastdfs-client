@@ -6,5 +6,6 @@ spring:
     name: fastdfs-client
 
 # for fastDFS
+# fastdfs-nginx-server 替换为域名或IP地址
 IMAGE_ACCESS_URL: http://fastdfs-nginx-server:8091/
 MAX_FILE_SIZE: 1MB
