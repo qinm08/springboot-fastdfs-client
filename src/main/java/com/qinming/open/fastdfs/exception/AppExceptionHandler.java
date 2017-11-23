@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by QinMing on 2017/10/26.
  */
 @ControllerAdvice
-public class GlobalExceptionHandler {
+public class AppExceptionHandler {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
