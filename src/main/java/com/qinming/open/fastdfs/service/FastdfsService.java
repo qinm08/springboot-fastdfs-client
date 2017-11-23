@@ -41,6 +41,7 @@ public class FastdfsService {
             return null;
         }
         result = IMAGE_ACCESS_URL + result;
+        logger.info("fileURL: {}", result);
         return result;
     }
 }
