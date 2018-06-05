@@ -35,8 +35,7 @@ public class FastdfsService {
     }
 
     public String upload(MultipartFile file) {
-        try {
-            InputStream ins = file.getInputStream();
+        try (InputStream ins = file.getInputStream()) {
             long fileSize = file.getSize();
             String filename = file.getOriginalFilename();
             String fileExt = filename.substring(filename.lastIndexOf(".") + 1);
