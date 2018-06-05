@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,31 +37,27 @@ public class FastdfsController {
         if (file == null || file.isEmpty()) {
             return new ReturnMessage(ReturnCode.FDFS_FILE_IS_EMPTY);
         }
-        InputStream ins = null;
-        try {
-            ins = file.getInputStream();
-            long fileSize = file.getSize();
-            String filename = file.getOriginalFilename();
-            String extName = filename.substring(filename.lastIndexOf(".") + 1);
 
-            String result = fastdfsService.upload(ins, fileSize, extName);
-            if (StringUtils.isEmpty(result)) {
-                return new ReturnMessage(ReturnCode.FDFS_UPLOAD_FAILED);
-            }
+        String result = fastdfsService.upload(file);
+        logger.info("fileURL={}", result);
 
-            Map<String, Object> context = new HashMap<>();
-            context.put("fileURL", result);
-            return new ReturnMessage(ReturnCode.SUCCESS, context);
-        } catch (Exception e) {
-            logger.error("FastdfsController 接收文件失败！", e);
-            return new ReturnMessage(ReturnCode.FDFS_SERVERS_ERROR);
-        } finally {
-            if (ins != null)
-                try {
-                    ins.close();
-                } catch (IOException e) {
-                    // do nothing
-                }
+        Map<String, Object> context = new HashMap<>();
+        context.put("fileURL", result);
+        return new ReturnMessage(ReturnCode.SUCCESS, context);
+    }
+
+    @ApiOperation("1.2 上传图片Base64编码")
+    @PostMapping(value = "/uploadBase64Str", produces = "application/json")
+    public ReturnMessage uploadBase64Str(@RequestParam String base64Str, @RequestParam String fileExt) {
+        if (StringUtils.isEmpty(base64Str) || StringUtils.isEmpty(fileExt)) {
+            return new ReturnMessage(ReturnCode.FDFS_FILE_IS_EMPTY);
         }
+
+        String result = fastdfsService.upload(base64Str, fileExt);
+        logger.info("fileURL={}", result);
+
+        Map<String, Object> context = new HashMap<>();
+        context.put("fileURL", result);
+        return new ReturnMessage(ReturnCode.SUCCESS, context);
     }
 }
