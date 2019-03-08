@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "repackage jar file ..."
 mvn clean package
 echo "starting application ..."
